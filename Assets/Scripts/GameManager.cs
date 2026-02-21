@@ -5,10 +5,9 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
-    int speed = 5;
-    float distance = 0;
-    float fuel = 100;
+    public int speed { get; private set; }
+    public float distance { get; private set; }
+    public float fuel { get; private set; }
 
     private TextMeshProUGUI textDistance;
     public Slider sliderFuel;
@@ -28,6 +27,9 @@ public class GameManager : MonoBehaviour
     {
         textDistance = GameObject.Find("Text Distance").GetComponent<TextMeshProUGUI>();
         sliderFuel = GameObject.Find("Fuel Bar").GetComponent<Slider>();
+        speed = 5;
+        distance = 0;
+        fuel = 100;
     }
 
     // Update is called once per frame
