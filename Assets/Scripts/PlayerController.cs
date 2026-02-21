@@ -18,8 +18,8 @@ public class PlayerController : MonoBehaviour
 
 
         // Define a velocidade de rotação com base na velocidade de movimento
-        rotationSpeed = speed*0.75f;
-        
+        rotationSpeed = speed * 0.75f;
+
     }
     void Update()
     {
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
         // Aplica a rotação suave do carro com base na entrada do jogador
         RotateCar();
- 
+
 
         // Mantém a posição Z do jogador constante
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
         // O ângulo alvo de rotação é o input horizontal (entre -1 e 1) 
         // multiplicado pelo ângulo máximo de inclinação.
         float targetZRotation = currentHorizontalInput * rotationAngle;
-        
+
 
         // Cria o Quaternion (rotação) alvo
         Quaternion targetRotation = Quaternion.Euler(
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+
         // Handle collisions with Cars and Barrels
         if (collision.gameObject.CompareTag("Car"))
         {
@@ -109,9 +109,8 @@ public class PlayerController : MonoBehaviour
         // Handle trigger with Powerup
         if (other.gameObject.CompareTag("Powerup"))
         {
-            Debug.Log("Gas picked!");
+            GameManager.Instance.increaseFuel(10);
             Destroy(other.gameObject);
-
         }
     }
 }
