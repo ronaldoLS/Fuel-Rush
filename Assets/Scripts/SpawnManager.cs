@@ -7,12 +7,14 @@ public class SpawnManager : MonoBehaviour
     public GameObject barrelPrefab;
     public GameObject powerupPrefab;
 
+
+
     private readonly float xSpawnRange = 2.5f;
     private float zSpawn = 60.0f;
     private readonly float delaySpawn = 0f;
     private readonly float repeatSpawnCar = 3f;
     private readonly float repeatSpawnBarrel = 6f;
-    private readonly float repeatSpawnPowerup = 10f;
+    private readonly float repeatSpawnPowerup = 12f;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,6 +36,7 @@ public class SpawnManager : MonoBehaviour
 
     }
 
+
     float RandomXPosition()
     {
         return Random.Range(-xSpawnRange, xSpawnRange);
@@ -43,9 +46,7 @@ public class SpawnManager : MonoBehaviour
         int randomIndex = Random.Range(0, CarsPrefab.Length);
         GameObject carPrefab = CarsPrefab[randomIndex];
         Vector3 carPrefabPosition = carPrefab.transform.position;
-
         Vector3 spawnPos = new(RandomXPosition(), carPrefabPosition.y, zSpawn);
-
         Instantiate(CarsPrefab[randomIndex], spawnPos, CarsPrefab[randomIndex].transform.rotation);
     }
     void SpawnBarrel()
@@ -68,9 +69,7 @@ public class SpawnManager : MonoBehaviour
             int randomIndex = Random.Range(0, CarsPrefab.Length);
             GameObject carPrefab = CarsPrefab[randomIndex];
             Vector3 carPrefabPosition = carPrefab.transform.position;
-
             Vector3 spawnPos = new(RandomXPosition(), carPrefabPosition.y, zPosition);
-
             Instantiate(CarsPrefab[randomIndex], spawnPos, CarsPrefab[randomIndex].transform.rotation);
         }
 
