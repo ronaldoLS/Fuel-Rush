@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39502a8611a7bae498359df2960f429f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveForward
-  speed: 5
+  zBound: 4
 --- !u!1001 &4708308215102913442
 PrefabInstance:
   m_ObjectHideFlags: 0
