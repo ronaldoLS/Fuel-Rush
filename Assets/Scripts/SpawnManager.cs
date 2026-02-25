@@ -24,7 +24,7 @@ public class SpawnManager : MonoBehaviour
         InvokeRepeating(nameof(SpawnRandomCar), delaySpawn, repeatSpawnCar);
         InvokeRepeating(nameof(SpawnBarrel), delaySpawn + 1f, repeatSpawnBarrel);
         InvokeRepeating(nameof(SpawnPowerup), delaySpawn + 2f, repeatSpawnPowerup);
-        //starterCars();
+        starterCars();
 
     }
 
@@ -58,10 +58,6 @@ public class SpawnManager : MonoBehaviour
 
         if (car != null)
         {
-            
-            MoveForward move = car.GetComponent<MoveForward>();
-            move.SetPool(selectedPool);
-
             Vector3 spawnPos = new(RandomXPosition(), car.transform.position.y, zSpawn);
             car.transform.position = spawnPos;
         }
@@ -76,9 +72,9 @@ public class SpawnManager : MonoBehaviour
     }
     void starterCars()
     {
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i <= 3; i++)
         {
-            float zPosition = i * 15f;
+            float zPosition = zSpawn - (i * 15f);
 
             int randomIndex = Random.Range(0, carPools.Count);
             ObjectPool selectedPool = carPools[randomIndex];
@@ -87,8 +83,16 @@ public class SpawnManager : MonoBehaviour
 
             if (car != null)
             {
-                Vector3 spawnPos = new(RandomXPosition(), car.transform.position.y, zPosition);
-                car.transform.position = spawnPos;
+                Vector3 spawnPos = new(
+                    RandomXPosition(),
+                    car.transform.position.y,
+                    zPosition
+                );
+
+                car.transform.SetPositionAndRotation(
+                    spawnPos,
+                    Quaternion.identity
+                );
             }
         }
     }

@@ -12,6 +12,11 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = Instantiate(prefab, transform);
+
+            MoveForward move = obj.GetComponent<MoveForward>();
+            if (move != null)
+                move.SetPool(this);
+
             obj.SetActive(false);
             pool.Enqueue(obj);
         }

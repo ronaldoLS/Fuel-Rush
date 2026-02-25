@@ -4,7 +4,7 @@ public class MoveForward : MonoBehaviour
 {
     [SerializeField] private float zBound = 4f;
 
-    private float speed;
+    private float speed = 0;
     private bool isStopped;
 
     private ObjectPool pool;
@@ -27,8 +27,9 @@ public class MoveForward : MonoBehaviour
         // Reset rotação
         transform.rotation = Quaternion.identity;
 
-        speed = GameManager.Instance.speed;
-        isStopped = false;
+        if (GameManager.Instance != null)
+            speed = GameManager.Instance.speed;
+
     }
 
     public void SetPool(ObjectPool poolReference)
@@ -39,6 +40,10 @@ public class MoveForward : MonoBehaviour
     private void Update()
     {
         if (isStopped) return;
+
+        float speed = GameManager.Instance != null
+        ? GameManager.Instance.speed
+        : 0f;
 
         transform.Translate(speed * Time.deltaTime * Vector3.back, Space.World);
 
@@ -59,5 +64,9 @@ public class MoveForward : MonoBehaviour
             pool.ReturnObject(gameObject);
         else
             gameObject.SetActive(false);
+    }
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
     }
 }
