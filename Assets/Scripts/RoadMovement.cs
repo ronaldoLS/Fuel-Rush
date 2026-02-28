@@ -8,11 +8,12 @@ public class RoadMovement : MonoBehaviour
 
     private void Start()
     {
-        speed = GameManager.Instance.speed;
+        
     }
 
     void Update()
     {
+        speed = GameManager.Instance.speed;
         transform.Translate(Vector3.back * speed * Time.deltaTime, Space.World);
         if (transform.position.z < reposition)
         {

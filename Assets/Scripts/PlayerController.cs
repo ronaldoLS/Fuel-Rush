@@ -110,7 +110,8 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Powerup"))
         {
             GameManager.Instance.increaseFuel(10);
-            Destroy(other.gameObject);
+            MoveForward move = other.gameObject.GetComponent<MoveForward>();
+            move.ReturnToPool();
         }
     }
 }

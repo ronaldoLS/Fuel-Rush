@@ -58,7 +58,7 @@ public class MoveForward : MonoBehaviour
         isStopped = true;
     }
 
-    private void ReturnToPool()
+    public void ReturnToPool()
     {
         if (pool != null)
             pool.ReturnObject(gameObject);

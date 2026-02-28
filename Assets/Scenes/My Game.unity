@@ -637,13 +637,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2840153, y: 0, z: 0, w: 0.95881975}
+  m_LocalRotation: {x: 0.29237175, y: 0, z: 0, w: 0.9563048}
   m_LocalPosition: {x: 0, y: 3.27, z: -4.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 33, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 34, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,8 +931,17 @@ MonoBehaviour:
   - {fileID: 1726610795}
   - {fileID: 686886755}
   - {fileID: 374269935}
-  barrelPool: {fileID: 985799647}
+  barrierPool: {fileID: 985799647}
   powerupPool: {fileID: 1540549376}
+  xSpawnRange: 2.5
+  zSpawn: 60
+  minSpawnGap: 0.5
+  baseCarInterval: 3
+  baseBarrierInterval: 6
+  basePowerupInterval: 12
+  carStartDelay: 0
+  barrierStartDelay: 1.5
+  powerupStartDelay: 3
 --- !u!4 &465921581
 Transform:
   m_ObjectHideFlags: 0
@@ -1240,7 +1249,7 @@ GameObject:
   - component: {fileID: 985799648}
   - component: {fileID: 985799647}
   m_Layer: 0
-  m_Name: BarrelPool
+  m_Name: BarrierPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1394,7 +1403,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d346b729093209641b00ee3104f59baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  baseSpeed: 0
   sliderFuel: {fileID: 0}
+  difficultyRate: 0.05
 --- !u!4 &1232402980
 Transform:
   m_ObjectHideFlags: 0
@@ -1544,7 +1555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1014797949310951927, guid: e7db4011ca7f11c408c1ad18b34ed04d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 30
+      value: 33.5
       objectReference: {fileID: 0}
     - target: {fileID: 1014797949310951927, guid: e7db4011ca7f11c408c1ad18b34ed04d, type: 3}
       propertyPath: m_LocalRotation.w
