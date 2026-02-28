@@ -9,6 +9,7 @@ public class MoveForward : MonoBehaviour
 
     private ObjectPool pool;
     private Rigidbody rb;
+    private bool isReturning;
 
     private void Awake()
     {
@@ -29,6 +30,8 @@ public class MoveForward : MonoBehaviour
 
         if (GameManager.Instance != null)
             speed = GameManager.Instance.speed;
+
+        isReturning = false;
 
     }
 
@@ -60,6 +63,10 @@ public class MoveForward : MonoBehaviour
 
     public void ReturnToPool()
     {
+        if (isReturning) return;
+
+        isReturning = true;
+
         if (pool != null)
             pool.ReturnObject(gameObject);
         else
@@ -69,4 +76,5 @@ public class MoveForward : MonoBehaviour
     {
         speed = newSpeed;
     }
+
 }

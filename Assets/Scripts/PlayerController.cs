@@ -106,12 +106,15 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        // Handle trigger with Powerup
-        if (other.gameObject.CompareTag("Powerup"))
+        if (other.CompareTag("Powerup"))
         {
             GameManager.Instance.increaseFuel(10);
-            MoveForward move = other.gameObject.GetComponent<MoveForward>();
-            move.ReturnToPool();
+
+            MoveForward move = other.GetComponent<MoveForward>();
+
+            if (move != null)
+                move.ReturnToPool();
         }
+
     }
 }

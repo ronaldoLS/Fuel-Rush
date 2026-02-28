@@ -1403,8 +1403,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d346b729093209641b00ee3104f59baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  speed: 0
   baseSpeed: 0
-  sliderFuel: {fileID: 0}
+  sliderFuel: {fileID: 1059848664}
   difficultyRate: 0.05
 --- !u!4 &1232402980
 Transform:
@@ -1921,11 +1922,11 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 4320023478325243095}
   - {fileID: 161093519}
+  - {fileID: 1232402980}
   - {fileID: 465921581}
   - {fileID: 143367184}
   - {fileID: 1465538168}
   - {fileID: 1810555507}
-  - {fileID: 1232402980}
   - {fileID: 1470948457}
   - {fileID: 1540549377}
   - {fileID: 985799648}

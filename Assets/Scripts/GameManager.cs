@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public float speed { get; private set; }
+    public float speed;
     [SerializeField] private float baseSpeed = 5f;
     public float maxSpeed { get; private set; }
     public float distance { get; private set; }
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         distance = 0;
         fuel = 100;
         baseSpeed = 5;
-        maxSpeed = 40;
+        maxSpeed = 80;
     }
 
     private void Start()
