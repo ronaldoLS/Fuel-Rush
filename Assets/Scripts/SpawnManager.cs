@@ -12,7 +12,7 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private float xSpawnRange = 2.5f;
     [SerializeField] private float zSpawn = 60f;
-    [SerializeField] private float minSpawnGap = 0.5f;
+    [SerializeField] private float minSpawnGap = 0.2f;
     private float lastSpawnTime;
 
     [Header("Base Spawn Intervals")]
@@ -33,7 +33,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnBarrierRoutine(barrierStartDelay));
         StartCoroutine(SpawnPowerupRoutine(powerupStartDelay));
 
-        // starterCars();
+        StarterCars();
     }
 
     float RandomXPosition()
@@ -74,7 +74,7 @@ public class SpawnManager : MonoBehaviour
         SpawnFromPool(powerupPool, zSpawn);
     }
 
-    void starterCars()
+    void StarterCars()
     {
         for (int i = 1; i <= 3; i++)
         {
@@ -116,6 +116,8 @@ public class SpawnManager : MonoBehaviour
 
         while (!stopSpawning)
         {
+            yield return WaitForSpawnGap();
+
             SpawnRandomCar();
 
             float interval = GetCarSpawnInterval();
@@ -127,12 +129,15 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnBarrierRoutine(float startDelay)
     {
+        yield return new WaitForSeconds(startDelay);
+
         while (!stopSpawning)
         {
-            yield return new WaitForSeconds(startDelay);
+            yield return WaitForSpawnGap();
+
             SpawnBarrier();
 
-            float interval = GetCarSpawnInterval();
+            float interval = GetBarrierSpawnInterval();
             interval += Random.Range(0.1f, 0.4f);
 
             yield return new WaitForSeconds(interval);
@@ -142,11 +147,14 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnPowerupRoutine(float startDelay)
     {
         yield return new WaitForSeconds(startDelay);
+
         while (!stopSpawning)
         {
+            yield return WaitForSpawnGap();
+
             SpawnPowerup();
 
-            float interval = GetCarSpawnInterval();
+            float interval = GetPowerupSpawnInterval();
             interval += Random.Range(0.1f, 0.4f);
 
             yield return new WaitForSeconds(interval);
@@ -160,28 +168,35 @@ public class SpawnManager : MonoBehaviour
     float DifficultyPercent()
     {
         float speed = GameManager.Instance.speed;
+        float baseSpeed = GameManager.Instance.baseSpeed;
         float maxSpeed = GameManager.Instance.maxSpeed;
 
-        return Mathf.Clamp01(speed / maxSpeed);
+        return Mathf.InverseLerp(baseSpeed, maxSpeed, speed);
     }
 
     float GetCarSpawnInterval()
     {
         float t = DifficultyPercent();
-        return Mathf.Lerp(baseCarInterval, 0.8f, t);
+        return Mathf.Lerp(baseCarInterval, 0.5f, t);
     }
 
     float GetBarrierSpawnInterval()
     {
         float t = DifficultyPercent();
-        return Mathf.Lerp(baseBarrierInterval, 2.5f, t);
+        return Mathf.Lerp(baseBarrierInterval, 1.5f, t);
     }
 
     float GetPowerupSpawnInterval()
     {
-        float t = DifficultyPercent();
+        float difficultyT = DifficultyPercent();
 
-        // Powerups ficam um pouco mais raros com dificuldade
-        return Mathf.Lerp(basePowerupInterval, basePowerupInterval + 4f, t);
+        float fuelPercent = GameManager.Instance.fuel/100;
+
+        float baseInterval = Mathf.Lerp(8f, 1f, difficultyT);
+
+        // Se combustível baixo, ajuda o jogador
+        float fuelFactor = Mathf.Lerp(0.5f, 1f, fuelPercent);
+
+        return baseInterval * fuelFactor;
     }
 }

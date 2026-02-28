@@ -6,17 +6,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public float speed;
-    [SerializeField] private float baseSpeed = 5f;
+    public float baseSpeed { get; private set; }
     public float maxSpeed { get; private set; }
     public float distance { get; private set; }
     public float fuel { get; private set; }
 
     private TextMeshProUGUI textDistance;
     public Slider sliderFuel;
-    
+
     [SerializeField] private float difficultyRate = 0.05f;
-    public float DifficultyPercent =>
-    Mathf.InverseLerp(baseSpeed, maxSpeed, speed);
+
 
     private void Awake()
     {
@@ -29,18 +28,18 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        speed = 5;
+        speed = 0;
+        baseSpeed = 5;
+        maxSpeed = 25;
         distance = 0;
         fuel = 100;
-        baseSpeed = 5;
-        maxSpeed = 80;
     }
 
     private void Start()
     {
         textDistance = GameObject.Find("Text Distance").GetComponent<TextMeshProUGUI>();
         sliderFuel = GameObject.Find("Fuel Bar").GetComponent<Slider>();
-        
+
     }
 
     // Update is called once per frame
@@ -48,11 +47,17 @@ public class GameManager : MonoBehaviour
     {
         distance += speed * Time.deltaTime;
         textDistance.text = Mathf.FloorToInt(distance) + " m";
-        fuel -= Time.deltaTime;
+        fuel -= (speed * Time.deltaTime) / 2;
+        if (fuel <= 0)
+        {
+            fuel = 0;
+            //speed = 0;
+            // Aqui você pode adicionar lógica para lidar com o fim do jogo, como mostrar uma tela de game over
+        }
         sliderFuel.value = fuel / 100;
 
         float t = distance / 500f; // quanto maior, mais lento cresce
-        float difficultyMultiplier = Mathf.Lerp(1f, 2.5f, t);
+        float difficultyMultiplier = Mathf.Lerp(1f, 5f, t);
 
         speed = Mathf.Clamp(baseSpeed * difficultyMultiplier, baseSpeed, maxSpeed);
 
