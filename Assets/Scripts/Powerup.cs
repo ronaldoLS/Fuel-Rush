@@ -2,17 +2,12 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
-    public float moveSpeed = 5f;         // velocidade de movimento
     private readonly float rotationSpeed = 120.0f; // Graus por segundo
     private readonly float amplitude = 0.5f; // Amplitude do movimento de flutuação
     private readonly float frequency = 3f;   // Frequência do movimento de flutuação
-
+    private ObjectPool pool;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
- 
-    }
 
     void Update()
     {
@@ -33,8 +28,23 @@ public class Powerup : MonoBehaviour
         transform.position = position;
 
     }
-    void moveBackward()
+    public void SetPool(ObjectPool poolReference)
     {
-        transform.Translate(Vector3.back * moveSpeed * Time.deltaTime, Space.World);
+        pool = poolReference;
+    }
+
+    public void Collect()
+    {
+        // efeito visual ou som pode ir aqui
+
+        ReturnToPool();
+    }
+
+    private void ReturnToPool()
+    {
+        if (pool != null)
+            pool.ReturnObject(gameObject);
+        else
+            gameObject.SetActive(false);
     }
 }
