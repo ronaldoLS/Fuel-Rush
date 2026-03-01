@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Powerup"))
         {
-            GameManager.Instance.increaseFuel(10);
+            GameManager.Instance.IncreaseFuel(10);
 
             MoveForward move = other.GetComponent<MoveForward>();
 

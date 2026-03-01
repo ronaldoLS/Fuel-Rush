@@ -1,4 +1,4 @@
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 [DefaultExecutionOrder(1)]
@@ -10,11 +10,13 @@ public class GameManager : MonoBehaviour
     public float maxSpeed { get; private set; }
     public float distance { get; private set; }
     public float fuel { get; private set; }
+    public float maxFuel { get; private set; }
 
     private TextMeshProUGUI textDistance;
     public Slider sliderFuel;
 
     [SerializeField] private float difficultyRate = 0.05f;
+    public float FuelPercent => fuel / maxFuel;
 
 
     private void Awake()
@@ -32,7 +34,8 @@ public class GameManager : MonoBehaviour
         baseSpeed = 5;
         maxSpeed = 25;
         distance = 0;
-        fuel = 100;
+        maxFuel = 100;
+        fuel = maxFuel;
     }
 
     private void Start()
@@ -45,24 +48,31 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance += speed * Time.deltaTime;
-        textDistance.text = Mathf.FloorToInt(distance) + " m";
-        fuel -= (speed * Time.deltaTime) / 2;
         if (fuel <= 0)
         {
-            fuel = 0;
-            //speed = 0;
-            // Aqui você pode adicionar lógica para lidar com o fim do jogo, como mostrar uma tela de game over
+            speed = 0;
+            return;
         }
-        sliderFuel.value = fuel / 100;
 
-        float t = distance / 500f; // quanto maior, mais lento cresce
-        float difficultyMultiplier = Mathf.Lerp(1f, 5f, t);
+        // Difficulty progression
+        float difficultyT = Mathf.Clamp01(distance / 500f);
+        float difficultySpeed = Mathf.Lerp(baseSpeed, maxSpeed, difficultyT);
 
-        speed = Mathf.Clamp(baseSpeed * difficultyMultiplier, baseSpeed, maxSpeed);
+        // Fuel penalty (starts at 25%)
+        float fuelMultiplier = Mathf.Clamp01(FuelPercent / 0.25f);
+
+        speed = difficultySpeed * fuelMultiplier;
+
+        // Distance
+        distance += speed * Time.deltaTime;
+        textDistance.text = Mathf.FloorToInt(distance) + " m";
+
+        // Fuel consumption
+        fuel -= (speed * Time.deltaTime) * 0.4f;
+        sliderFuel.value = FuelPercent;
 
     }
-    public void increaseFuel(int amount)
+    public void IncreaseFuel(int amount)
     {
         fuel = Mathf.Min(fuel + amount, 100);
     }
