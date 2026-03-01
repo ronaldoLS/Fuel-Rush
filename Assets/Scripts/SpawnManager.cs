@@ -12,8 +12,10 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private float xSpawnRange = 2.5f;
     [SerializeField] private float zSpawn = 60f;
-    [SerializeField] private float minSpawnGap = 0.2f;
+    [SerializeField] private float minSpawnGap = 0.4f;
+    [SerializeField] private float[] lanes = { -2.7f, -0.9f, 0.9f, 2.7f };
     private float lastSpawnTime;
+    private int lastLane = -1;
 
     [Header("Base Spawn Intervals")]
     [SerializeField] private float baseCarInterval = 3f;
@@ -36,9 +38,19 @@ public class SpawnManager : MonoBehaviour
         StarterCars();
     }
 
-    float RandomXPosition()
+    float RandomLane()
     {
-        return Random.Range(-xSpawnRange, xSpawnRange);
+        int lane;
+
+        do
+        {
+            lane = Random.Range(0, lanes.Length);
+        }
+        while (lane == lastLane);
+
+        lastLane = lane;
+
+        return lanes[lane];
     }
 
     void SpawnFromPool(ObjectPool pool, float zPos)
@@ -49,7 +61,7 @@ public class SpawnManager : MonoBehaviour
 
         if (obj != null)
         {
-            Vector3 spawnPos = new(RandomXPosition(), 0, zPos);
+            Vector3 spawnPos = new(RandomLane(), 0, zPos);
             obj.transform.position = spawnPos;
         }
     }
@@ -87,11 +99,7 @@ public class SpawnManager : MonoBehaviour
 
             if (car != null)
             {
-                Vector3 spawnPos = new(
-                    RandomXPosition(),
-                    car.transform.position.y,
-                    zPosition
-                );
+                Vector3 spawnPos = new(RandomLane(), 0, zPosition);
 
                 car.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
             }
@@ -190,7 +198,7 @@ public class SpawnManager : MonoBehaviour
     {
         float difficultyT = DifficultyPercent();
 
-        float fuelPercent = GameManager.Instance.fuel/100;
+        float fuelPercent = GameManager.Instance.fuel / 100;
 
         float baseInterval = Mathf.Lerp(8f, 1f, difficultyT);
 
