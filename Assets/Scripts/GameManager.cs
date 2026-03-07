@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public Slider sliderFuel;
 
     [SerializeField] private float difficultyRate = 0.05f;
+    [SerializeField] private float lowFuelThreshold = 0.15f;
+    [SerializeField] private float stutterStrength = 0.25f;
+    [SerializeField] private float stutterSpeed = 8f;
     public float FuelPercent => fuel / maxFuel;
 
 
@@ -70,6 +73,19 @@ public class GameManager : MonoBehaviour
         // Fuel consumption
         fuel -= (speed * Time.deltaTime) * 0.4f;
         sliderFuel.value = FuelPercent;
+        // Engine stutter effect when fuel is low
+        if (FuelPercent <= lowFuelThreshold && FuelPercent > 0)
+        {
+            float stutter = Mathf.Sin(Time.time * stutterSpeed) * stutterStrength;
+
+            fuelMultiplier *= (1f - Mathf.Abs(stutter));
+        }
+        // Low fuel warning
+        if (FuelPercent < 0.2f)
+        {
+            sliderFuel.fillRect.GetComponent<Image>().color =
+                Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time * 4f, 1));
+        }
 
     }
     public void IncreaseFuel(int amount)
