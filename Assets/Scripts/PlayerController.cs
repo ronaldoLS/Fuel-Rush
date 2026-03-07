@@ -115,7 +115,8 @@ public class PlayerController : MonoBehaviour
 
             if (stutterTimer <= 0)
             {
-                stutterTimer = Random.Range(0.2f, 0.6f);
+                float fuelFactor = 1f - GameManager.Instance.FuelPercent;
+                stutterTimer = Random.Range(0.05f, 0.2f) * (1f - fuelFactor * 0.7f);
 
                 float offset = Mathf.Sin(Time.time * stutterSpeed) * stutterAmount;
                 stutterOffsetZ = -Mathf.Abs(offset);

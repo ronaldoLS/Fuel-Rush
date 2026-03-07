@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float stutterStrength = 0.25f;
     [SerializeField] private float stutterSpeed = 8f;
     public float FuelPercent => fuel / maxFuel;
+    private Image fuelFillImage;
+    private Color fuelNormalColor;
 
 
     private void Awake()
@@ -45,6 +47,9 @@ public class GameManager : MonoBehaviour
     {
         textDistance = GameObject.Find("Text Distance").GetComponent<TextMeshProUGUI>();
         sliderFuel = GameObject.Find("Fuel Bar").GetComponent<Slider>();
+
+        fuelFillImage = sliderFuel.fillRect.GetComponent<Image>();
+        fuelNormalColor = fuelFillImage.color;
 
     }
 
@@ -80,11 +85,15 @@ public class GameManager : MonoBehaviour
 
             fuelMultiplier *= (1f - Mathf.Abs(stutter));
         }
-        // Low fuel warning
+        // Low fuel UI warning
         if (FuelPercent < 0.2f)
         {
-            sliderFuel.fillRect.GetComponent<Image>().color =
+            fuelFillImage.color =
                 Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time * 4f, 1));
+        }
+        else
+        {
+            fuelFillImage.color = fuelNormalColor;
         }
 
     }
