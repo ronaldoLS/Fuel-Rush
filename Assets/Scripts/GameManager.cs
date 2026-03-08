@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public bool isGameOver = false;
     public float speed;
     public float baseSpeed { get; private set; }
     public float maxSpeed { get; private set; }
@@ -15,10 +16,11 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI textDistance;
     public Slider sliderFuel;
 
-    [SerializeField] private float difficultyRate = 0.05f;
     [SerializeField] private float lowFuelThreshold = 0.15f;
     [SerializeField] private float stutterStrength = 0.25f;
     [SerializeField] private float stutterSpeed = 8f;
+
+    public GameObject GameOverUI;
     public float FuelPercent => fuel / maxFuel;
     private Image fuelFillImage;
     private Color fuelNormalColor;
@@ -56,11 +58,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (fuel <= 0)
+        if (isGameOver) return;
+
+        if (FuelPercent <= 0.01)
         {
-            speed = 0;
+            GameOver();
             return;
         }
+
+
 
         // Difficulty progression
         float difficultyT = Mathf.Clamp01(distance / 500f);
@@ -68,6 +74,15 @@ public class GameManager : MonoBehaviour
 
         // Fuel penalty (starts at 25%)
         float fuelMultiplier = Mathf.Clamp01(FuelPercent / 0.25f);
+
+
+        // Engine stutter effect when fuel is low
+        if (FuelPercent <= lowFuelThreshold && FuelPercent > 0)
+        {
+            float stutter = Mathf.Sin(Time.time * stutterSpeed) * stutterStrength;
+
+            fuelMultiplier *= (1f - Mathf.Abs(stutter));
+        }
 
         speed = difficultySpeed * fuelMultiplier;
 
@@ -78,13 +93,7 @@ public class GameManager : MonoBehaviour
         // Fuel consumption
         fuel -= (speed * Time.deltaTime) * 0.4f;
         sliderFuel.value = FuelPercent;
-        // Engine stutter effect when fuel is low
-        if (FuelPercent <= lowFuelThreshold && FuelPercent > 0)
-        {
-            float stutter = Mathf.Sin(Time.time * stutterSpeed) * stutterStrength;
 
-            fuelMultiplier *= (1f - Mathf.Abs(stutter));
-        }
         // Low fuel UI warning
         if (FuelPercent < 0.2f)
         {
@@ -100,5 +109,12 @@ public class GameManager : MonoBehaviour
     public void IncreaseFuel(int amount)
     {
         fuel = Mathf.Min(fuel + amount, 100);
+    }
+    public void GameOver()
+    {
+        isGameOver = true;
+        speed = 0;
+        GameOverUI.SetActive(true);
+        Time.timeScale = 0f;
     }
 }

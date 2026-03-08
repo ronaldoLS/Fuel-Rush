@@ -125,16 +125,19 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-
+        
         // Handle collisions with Cars and Barrels
         if (collision.gameObject.CompareTag("Car"))
         {
+            GameManager.Instance.GameOver();
             Debug.Log("Collided with a Car!");
-
+            Time.timeScale = 0f;
         }
         if (collision.gameObject.CompareTag("Barrel"))
         {
+            GameManager.Instance.GameOver();
             Debug.Log("Collided with a Barrel!");
+            Time.timeScale = 0f;
 
         }
     }

@@ -37,6 +37,15 @@ public class SpawnManager : MonoBehaviour
 
         StarterCars();
     }
+    private void Update()
+    {
+        if (GameManager.Instance.isGameOver)
+        {
+            stopSpawning = true;
+            StopAllCoroutines();
+
+        }
+    }
 
     float RandomLane()
     {
