@@ -95,13 +95,21 @@ public class PlayerController : MonoBehaviour
         // Handle collisions with Cars and Barrels
         if (collision.gameObject.CompareTag("Car"))
         {
+<<<<<<< Updated upstream
             Debug.Log("Collided with a Car!");
 
+=======
+            GameManager.Instance.GameOver();
+            Debug.Log("Collided with a Car!");            
+>>>>>>> Stashed changes
         }
         if (collision.gameObject.CompareTag("Barrel"))
         {
             Debug.Log("Collided with a Barrel!");
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         }
     }
     private void OnTriggerEnter(Collider other)
