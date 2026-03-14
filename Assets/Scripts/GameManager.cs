@@ -13,18 +13,12 @@ public class GameManager : MonoBehaviour
     public float fuel { get; private set; }
     public float maxFuel { get; private set; }
 
-    private TextMeshProUGUI textDistance;
-    public Slider sliderFuel;
-
     [SerializeField] private float lowFuelThreshold = 0.15f;
     [SerializeField] private float stutterStrength = 0.25f;
     [SerializeField] private float stutterSpeed = 8f;
 
     public GameObject GameOverUI;
     public float FuelPercent => fuel / maxFuel;
-    private Image fuelFillImage;
-    private Color fuelNormalColor;
-
 
     private void Awake()
     {
@@ -47,11 +41,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        textDistance = GameObject.Find("Text Distance").GetComponent<TextMeshProUGUI>();
-        sliderFuel = GameObject.Find("Fuel Bar").GetComponent<Slider>();
-
-        fuelFillImage = sliderFuel.fillRect.GetComponent<Image>();
-        fuelNormalColor = fuelFillImage.color;
 
     }
 
@@ -65,9 +54,6 @@ public class GameManager : MonoBehaviour
             GameOver();
             return;
         }
-
-
-
         // Difficulty progression
         float difficultyT = Mathf.Clamp01(distance / 500f);
         float difficultySpeed = Mathf.Lerp(baseSpeed, maxSpeed, difficultyT);
@@ -88,22 +74,9 @@ public class GameManager : MonoBehaviour
 
         // Distance
         distance += speed * Time.deltaTime;
-        textDistance.text = Mathf.FloorToInt(distance) + " m";
 
         // Fuel consumption
         fuel -= (speed * Time.deltaTime) * 0.4f;
-        sliderFuel.value = FuelPercent;
-
-        // Low fuel UI warning
-        if (FuelPercent < 0.2f)
-        {
-            fuelFillImage.color =
-                Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time * 4f, 1));
-        }
-        else
-        {
-            fuelFillImage.color = fuelNormalColor;
-        }
 
     }
     public void IncreaseFuel(int amount)
@@ -114,7 +87,14 @@ public class GameManager : MonoBehaviour
     {
         isGameOver = true;
         speed = 0;
-        GameOverUI.SetActive(true);
         Time.timeScale = 0f;
+    }
+    public void RestartGame()
+    {
+        isGameOver = false;
+        speed = 0;
+        distance = 0;
+        fuel = maxFuel;
+        Time.timeScale = 1f;
     }
 }
