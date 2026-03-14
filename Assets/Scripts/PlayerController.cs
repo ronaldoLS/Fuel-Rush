@@ -131,13 +131,11 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.GameOver();
             Debug.Log("Collided with a Car!");
-            Time.timeScale = 0f;
         }
         if (collision.gameObject.CompareTag("Barrel"))
         {
             GameManager.Instance.GameOver();
             Debug.Log("Collided with a Barrel!");
-            Time.timeScale = 0f;
 
         }
     }
