@@ -1,7 +1,15 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private float lowFuelThreshold = 0.15f;
+    [SerializeField] private float stutterAmount = 0.15f;
+    [SerializeField] private float stutterSpeed = 20f;
+    [SerializeField] private float stutterDuration = 0.15f;
+
+    private float stutterTimer;
+    private float stutterOffsetZ;
     private float speed = 5.0f;
     private float sideBoundary = 2.5f;
     MoveForward moveForwardScript;
@@ -20,9 +28,12 @@ public class PlayerController : MonoBehaviour
         // Define a velocidade de rotação com base na velocidade de movimento
         rotationSpeed = speed * 0.75f;
 
+        
+
     }
     void Update()
     {
+        ApplyLowFuelStutter();
 
     }
     void FixedUpdate()
@@ -35,9 +46,13 @@ public class PlayerController : MonoBehaviour
         // Aplica a rotação suave do carro com base na entrada do jogador
         RotateCar();
 
-
-        // Mantém a posição Z do jogador constante
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        // Aplica o stutter de baixa combustível ajustando a posição Z do carro
+        transform.position = new Vector3(
+            transform.position.x,
+            transform.position.y,
+            stutterOffsetZ
+        );
+        
     }
 
     void MovePlayer()
@@ -88,19 +103,41 @@ public class PlayerController : MonoBehaviour
             rotationSpeed * Time.deltaTime
         );
     }
+    void ApplyLowFuelStutter()
+    {
+        float fuelPercent = GameManager.Instance.FuelPercent;
 
+        stutterOffsetZ = 0f;
+
+        if (fuelPercent < lowFuelThreshold && fuelPercent > 0)
+        {
+            stutterTimer -= Time.deltaTime;
+
+            if (stutterTimer <= 0)
+            {
+                float fuelFactor = 1f - GameManager.Instance.FuelPercent;
+                stutterTimer = Random.Range(0.05f, 0.2f) * (1f - fuelFactor * 0.7f);
+
+                float offset = Mathf.Sin(Time.time * stutterSpeed) * stutterAmount;
+                stutterOffsetZ = -Mathf.Abs(offset);
+            }
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
-
+        
         // Handle collisions with Cars and Barrels
         if (collision.gameObject.CompareTag("Car"))
         {
+            GameManager.Instance.GameOver();
             Debug.Log("Collided with a Car!");
-
+            Time.timeScale = 0f;
         }
         if (collision.gameObject.CompareTag("Barrel"))
         {
+            GameManager.Instance.GameOver();
             Debug.Log("Collided with a Barrel!");
+            Time.timeScale = 0f;
 
         }
     }
@@ -108,7 +145,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Powerup"))
         {
-            GameManager.Instance.increaseFuel(10);
+            GameManager.Instance.IncreaseFuel(10);
 
             MoveForward move = other.GetComponent<MoveForward>();
 
