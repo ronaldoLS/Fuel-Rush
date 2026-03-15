@@ -1,17 +1,18 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using System.IO;
 [DefaultExecutionOrder(1)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public bool isGameOver = false;
+    public bool isGameOver;
     public float speed;
     public float baseSpeed { get; private set; }
     public float maxSpeed { get; private set; }
     public float distance { get; private set; }
     public float fuel { get; private set; }
     public float maxFuel { get; private set; }
+    public float record { get; private set; }
+
 
     [SerializeField] private float lowFuelThreshold = 0.15f;
     [SerializeField] private float stutterStrength = 0.25f;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        record = LoadRecord();
         speed = 0;
         baseSpeed = 5;
         maxSpeed = 25;
@@ -41,7 +43,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
+        isGameOver = true;
+        //CleanRecord();
     }
 
     // Update is called once per frame
@@ -85,6 +88,11 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
+        if (distance > record)
+        {
+            record = distance;
+            SaveRecord();
+        }
         isGameOver = true;
         speed = 0;
         Time.timeScale = 0f;
@@ -96,5 +104,31 @@ public class GameManager : MonoBehaviour
         distance = 0;
         fuel = maxFuel;
         Time.timeScale = 1f;
+    }
+   
+    public void SaveRecord()
+    {
+        SaveData data = new SaveData();
+        data.highScore = distance;
+
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+    public float LoadRecord()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            record = data.highScore;
+            return record;
+        }
+        return 0;
+    }
+    public void CleanRecord()
+    {
+        distance = 0;
+        SaveRecord();
     }
 }

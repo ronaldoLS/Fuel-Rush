@@ -61,4 +61,8 @@ public class UIController : MonoBehaviour
         GameManager.Instance.RestartGame();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
