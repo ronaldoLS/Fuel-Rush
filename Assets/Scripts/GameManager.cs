@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         isGameOver = true;
+        //CleanRecord();
     }
 
     // Update is called once per frame
@@ -112,7 +113,6 @@ public class GameManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
-
     }
     public float LoadRecord()
     {

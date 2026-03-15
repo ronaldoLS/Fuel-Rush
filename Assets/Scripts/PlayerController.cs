@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float lowFuelThreshold = 0.15f;
     [SerializeField] private float stutterAmount = 0.15f;
     [SerializeField] private float stutterSpeed = 20f;
-    [SerializeField] private float stutterDuration = 0.15f;
 
     private float stutterTimer;
     private float stutterOffsetZ;

@@ -1,25 +1,28 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 [DefaultExecutionOrder(10)]
 public class UIMenuController : MonoBehaviour
 {
     [SerializeField] private Button startButton;
     [SerializeField] private TextMeshProUGUI recordText;
+    private int record;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         startButton.onClick.AddListener(StartGame);
-        
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.LoadRecord();
-            if (GameManager.Instance.record > 0)
-                recordText.text = $"Record: {GameManager.Instance.record:F2} m";
+            record = Mathf.FloorToInt(GameManager.Instance.record);
+            if (record > 0)
+                recordText.text = "Record: " + record + " m";
             else
                 recordText.text = "";
 
-        }else
+        }
+        else
         {
             recordText.text = "";
             Debug.LogWarning("GameManager instance not found. Record will not be displayed.");

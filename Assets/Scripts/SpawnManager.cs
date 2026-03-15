@@ -10,7 +10,6 @@ public class SpawnManager : MonoBehaviour
     public ObjectPool barrierPool;
     public ObjectPool powerupPool;
 
-    [SerializeField] private float xSpawnRange = 2.5f;
     [SerializeField] private float zSpawn = 60f;
     [SerializeField] private float minSpawnGap = 0.4f;
     [SerializeField] private float[] lanes = { -2.7f, -0.9f, 0.9f, 2.7f };
@@ -20,7 +19,6 @@ public class SpawnManager : MonoBehaviour
     [Header("Base Spawn Intervals")]
     [SerializeField] private float baseCarInterval = 3f;
     [SerializeField] private float baseBarrierInterval = 6f;
-    [SerializeField] private float basePowerupInterval = 12f;
     [Header("Start Delays")]
     [SerializeField] private float carStartDelay = 0f;
     [SerializeField] private float barrierStartDelay = 1.5f;
