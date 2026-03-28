@@ -73,6 +73,17 @@ public class GameManager : MonoBehaviour
             fuelMultiplier *= (1f - Mathf.Abs(stutter));
         }
 
+        // Engine sound effects
+        if (FuelPercent < 0.2f)
+        {
+            AudioManager.Instance.PlayLowFuelEngine();
+        }
+        else
+        {
+            if (AudioManager.Instance)
+                AudioManager.Instance.PlayNormalEngine();
+        }
+
         speed = difficultySpeed * fuelMultiplier;
 
         // Distance
@@ -88,6 +99,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
+        AudioManager.Instance.StopEngine();
         if (distance > record)
         {
             record = distance;

@@ -128,11 +128,13 @@ public class PlayerController : MonoBehaviour
         // Handle collisions with Cars and Barrels
         if (collision.gameObject.CompareTag("Car"))
         {
+            AudioManager.Instance.PlayCrash();
             GameManager.Instance.GameOver();
             Debug.Log("Collided with a Car!");
         }
         if (collision.gameObject.CompareTag("Barrel"))
         {
+            AudioManager.Instance.PlayCrash();
             GameManager.Instance.GameOver();
             Debug.Log("Collided with a Barrel!");
 
@@ -142,6 +144,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Powerup"))
         {
+            AudioManager.Instance.PlayFuelPickup();
             GameManager.Instance.IncreaseFuel(10);
 
             MoveForward move = other.GetComponent<MoveForward>();
