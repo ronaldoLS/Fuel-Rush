@@ -87,6 +87,12 @@ public class AudioManager : MonoBehaviour
     {
         engineSource.Stop();
     }
+    public void StopMusic()
+    {
+        if (musicSource.isPlaying)
+            musicSource.Stop();
+            
+    }
 
     // SFX
     public void PlayCrash()

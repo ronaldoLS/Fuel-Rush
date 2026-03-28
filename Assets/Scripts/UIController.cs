@@ -63,6 +63,7 @@ public class UIController : MonoBehaviour
     }
     public void ReturnToMenu()
     {
+        AudioManager.Instance.musicSource.Stop();
         SceneManager.LoadScene("MainMenu");
     }
 }
