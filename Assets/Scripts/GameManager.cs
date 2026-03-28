@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
-        AudioManager.Instance.StopEngine();
+        AudioManager.Instance.StopEngineSound();
         if (distance > record)
         {
             record = distance;
@@ -116,6 +116,7 @@ public class GameManager : MonoBehaviour
         distance = 0;
         fuel = maxFuel;
         Time.timeScale = 1f;
+        AudioManager.Instance.PlayEngine();
     }
    
     public void SaveRecord()

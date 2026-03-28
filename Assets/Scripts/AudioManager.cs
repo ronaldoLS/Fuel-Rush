@@ -19,6 +19,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip engineSound;
     public AudioClip engineLowFuelSound;
 
+    public float MusicVolume { get; private set; }
+    public float SoundEffectsVolume { get; private set; }
+
+
     private void Awake()
     {
         if (Instance != null)
@@ -35,17 +39,21 @@ public class AudioManager : MonoBehaviour
         engineSource = gameObject.AddComponent<AudioSource>();
 
         // Configuração básica
+        MusicVolume = 0.60f;
+        SoundEffectsVolume = 1f;
+
         musicSource.loop = true;
-        musicSource.volume = 0.15f;
+        musicSource.volume = MusicVolume;
 
         engineSource.loop = true;
-        engineSource.volume = 1f;
+        engineSource.volume = SoundEffectsVolume;
+
+        
     }
 
     private void Start()
-    {
+    {        
         PlayMusic();
-        PlayEngine();
     }
 
     // MUSIC
@@ -61,6 +69,9 @@ public class AudioManager : MonoBehaviour
     // ENGINE NORMAL
     public void PlayEngine()
     {
+        if (engineSource.isPlaying)
+            return;
+
         engineSource.clip = engineSound;
         engineSource.loop = true;
         engineSource.Play();
@@ -72,18 +83,18 @@ public class AudioManager : MonoBehaviour
         if (engineSource.clip == engineLowFuelSound) return;
 
         engineSource.clip = engineLowFuelSound;
-        engineSource.volume = 0.4f;
+        engineSource.volume = SoundEffectsVolume * 0.2f;
         engineSource.Play();
     }
 
     public void PlayNormalEngine()
     {
         if (engineSource.clip == engineSound) return;
-
         engineSource.clip = engineSound;
+        engineSource.volume = SoundEffectsVolume;
         engineSource.Play();
     }
-    public void StopEngine()
+    public void StopEngineSound()
     {
         engineSource.Stop();
     }
@@ -91,7 +102,15 @@ public class AudioManager : MonoBehaviour
     {
         if (musicSource.isPlaying)
             musicSource.Stop();
-            
+    }
+    public void SetMusicVolume(float volume)
+    {
+        musicSource.volume = volume;
+    }
+    public void SetSFXVolume(float volume)
+    {
+        sfxSource.volume = volume * 0.75f;
+        engineSource.volume = volume;
     }
 
     // SFX
