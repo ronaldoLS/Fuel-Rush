@@ -1113,7 +1113,6 @@ MonoBehaviour:
   - {fileID: 374269935}
   barrierPool: {fileID: 985799647}
   powerupPool: {fileID: 1540549376}
-  xSpawnRange: 2.5
   zSpawn: 60
   minSpawnGap: 0.2
   lanes:
@@ -1123,7 +1122,6 @@ MonoBehaviour:
   - 2.7
   baseCarInterval: 3
   baseBarrierInterval: 6
-  basePowerupInterval: 12
   carStartDelay: 0
   barrierStartDelay: 1.5
   powerupStartDelay: 3
@@ -1369,6 +1367,58 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.08763, y: -0, z: 43.23676}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &780468902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 780468904}
+  - component: {fileID: 780468903}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &780468903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780468902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2481d1b1ae4bd04dbda9f422bebc81f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  musicSource: {fileID: 0}
+  sfxSource: {fileID: 0}
+  engineSource: {fileID: 0}
+  backgroundMusic: {fileID: 8300000, guid: 0d60be2280dc244908dd843c81666b11, type: 3}
+  crashSound: {fileID: 8300000, guid: ef2cde67276e7490e860213ae5393038, type: 3}
+  fuelPickupSound: {fileID: 8300000, guid: 37549b8b11fe14a5faf0e30d4a97f159, type: 3}
+  engineSound: {fileID: 8300000, guid: c4f81da9f14a0d343affee7955a2ece8, type: 3}
+  engineLowFuelSound: {fileID: 8300000, guid: 702064bc1dcf49b4c8fc48fed5145812, type: 3}
+--- !u!4 &780468904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780468902}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 317.5, y: 182.65578, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2955,3 +3005,4 @@ SceneRoots:
   - {fileID: 1726610796}
   - {fileID: 686886756}
   - {fileID: 374269936}
+  - {fileID: 780468904}
