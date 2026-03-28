@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -13,9 +13,9 @@ public class PlayerController : MonoBehaviour
     private float sideBoundary = 2.5f;
     MoveForward moveForwardScript;
 
-    // --- Novas Vari·veis para RotaÁ„o ---
-    private float rotationAngle = 20.0f; // ¬ngulo m·ximo de inclinaÁ„o (em graus)
-    private float rotationSpeed; // Velocidade da transiÁ„o de rotaÁ„o
+    // --- Novas Vari√°veis para Rota√ß√£o ---
+    private float rotationAngle = 20.0f; // √Çngulo m√°ximo de inclina√ß√£o (em graus)
+    private float rotationSpeed; // Velocidade da transi√ß√£o de rota√ß√£o
 
     private float currentHorizontalInput = 0f;
     // ------------------------------------
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     {
 
 
-        // Define a velocidade de rotaÁ„o com base na velocidade de movimento
+        // Define a velocidade de rota√ß√£o com base na velocidade de movimento
         rotationSpeed = speed * 0.75f;
 
         
@@ -38,14 +38,14 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
 
-        // Move o jogador com base na entrada do usu·rio
+        // Move o jogador com base na entrada do usu√°rio
         MovePlayer();
-        horizontalLimite();
+    
 
-        // Aplica a rotaÁ„o suave do carro com base na entrada do jogador
+        // Aplica a rota√ß√£o suave do carro com base na entrada do jogador
         RotateCar();
 
-        // Aplica o stutter de baixa combustÌvel ajustando a posiÁ„o Z do carro
+        // Aplica o stutter de baixa combust√≠vel ajustando a posi√ß√£o Z do carro
         transform.position = new Vector3(
             transform.position.x,
             transform.position.y,
@@ -56,13 +56,20 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        // Get input from the horizontal axis (A/D keys or Left/Right arrows)
         float horizontal = Input.GetAxis("Horizontal");
 
-        // Armazena a entrada atual para ser usada na rotaÁ„o
-        currentHorizontalInput = horizontal;
+        float newX = transform.position.x + horizontal * speed * Time.deltaTime;
 
-        transform.Translate(Vector3.right * horizontal * speed * Time.deltaTime);
+        // Clamp direto
+        float clampedX = Mathf.Clamp(newX, -sideBoundary, sideBoundary);
+
+        // Detecta se bateu no limite
+        bool hitBoundary = Mathf.Abs(newX - clampedX) > 0.001f;
+
+        // Se bateu no limite, zera input (para rota√ß√£o)
+        currentHorizontalInput = hitBoundary ? 0f : horizontal;
+
+        transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
     }
 
     void horizontalLimite()
@@ -71,7 +78,7 @@ public class PlayerController : MonoBehaviour
         // Uso de Mathf.Clamp para uma sintaxe mais concisa
         float clampedX = Mathf.Clamp(transform.position.x, -sideBoundary, sideBoundary);
 
-        // Aplica a posiÁ„o limitada apenas se ela mudou
+        // Aplica a posi√ß√£o limitada apenas se ela mudou
         if (clampedX != transform.position.x)
         {
             transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
@@ -79,23 +86,24 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Aplica uma rotaÁ„o suave (inclinaÁ„o) ao carro no eixo Z com base na entrada horizontal.
+    /// Aplica uma rota√ß√£o suave (inclina√ß√£o) ao carro no eixo Z com base na entrada horizontal.
     /// </summary>
     void RotateCar()
     {
-        // O ‚ngulo alvo de rotaÁ„o È o input horizontal (entre -1 e 1) 
-        // multiplicado pelo ‚ngulo m·ximo de inclinaÁ„o.
-        float targetZRotation = currentHorizontalInput * rotationAngle;
+        // O √¢ngulo alvo de rota√ß√£o √© o input horizontal (entre -1 e 1) 
+        // multiplicado pelo √¢ngulo m√°ximo de inclina√ß√£o.
+        float targetYRotation = currentHorizontalInput * rotationAngle;
 
 
-        // Cria o Quaternion (rotaÁ„o) alvo
+        // Cria o Quaternion (rota√ß√£o) alvo
         Quaternion targetRotation = Quaternion.Euler(
-            transform.localEulerAngles.x, // MantÈm a rotaÁ„o X (pitch)
-            targetZRotation, // MantÈm a rotaÁ„o Y (yaw)
-            transform.localEulerAngles.z// Define a nova rotaÁ„o Z (roll)
+            transform.localEulerAngles.x, // Mant√©m a rota√ß√£o X (pitch)
+            targetYRotation, // Mant√©m a rota√ß√£o Y (yaw)
+            transform.localEulerAngles.z// Define a nova rota√ß√£o Z (roll)
         );
 
-        // Aplica uma rotaÁ„o suave (interpolaÁ„o) em direÁ„o ao alvo usando Slerp
+
+        // Aplica uma rota√ß√£o suave (interpola√ß√£o) em dire√ß√£o ao alvo usando Slerp
         transform.localRotation = Quaternion.Slerp(
             transform.localRotation,
             targetRotation,
