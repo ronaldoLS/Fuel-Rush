@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-
+[DefaultExecutionOrder(2)]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float lowFuelThreshold = 0.15f;
