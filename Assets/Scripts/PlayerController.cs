@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private float stutterTimer;
     private float stutterOffsetZ;
     private float speed = 5.0f;
-    private float sideBoundary = 2.5f;
+    private float sideBoundary;
     MoveForward moveForwardScript;
 
     // --- Novas Variáveis para Rotação ---
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        sideBoundary = GameManager.Instance.sideBoundary;
 
         // Define a velocidade de rotação com base na velocidade de movimento
         rotationSpeed = speed * 0.75f;
@@ -66,8 +66,20 @@ public class PlayerController : MonoBehaviour
         // Detecta se bateu no limite
         bool hitBoundary = Mathf.Abs(newX - clampedX) > 0.001f;
 
-        // Se bateu no limite, zera input (para rotação)
-        currentHorizontalInput = hitBoundary ? 0f : horizontal;
+        if (hitBoundary)
+        {
+            // Se bateu no limite, zera input (para rotação)
+            currentHorizontalInput = 0f;
+            GameManager.Instance.switchIsOnBoundary(true);
+        }
+        else
+        {
+            // Se não bateu no limite, mantém o input para rotação
+            currentHorizontalInput = horizontal;
+            GameManager.Instance.switchIsOnBoundary(false);
+        }
+
+
 
         transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
     }

@@ -112,8 +112,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.7541826, z: 1.2637771}
-  m_Center: {x: 0, y: 0.36280453, z: -0.0104673505}
+  m_Size: {x: 0.96678513, y: 0.7541826, z: 1.1511188}
+  m_Center: {x: 0.0023724139, y: 0.36280453, z: -0.008424997}
 --- !u!114 &7295474167092914204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72b62370fc367448b0aa109fc0d443b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  lowFuelThreshold: 0.15
+  stutterAmount: 0.15
+  stutterSpeed: 20
 --- !u!54 &283271377734489950
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -245,38 +248,119 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1847148240549790, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1264536031007802, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4879043804339239373}
+      addedObject: {fileID: 1161991040909695651}
+    - targetCorrespondingSourceObject: {fileID: 1530347918961412, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6765098334851225087}
+    - targetCorrespondingSourceObject: {fileID: 1003890282918426, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 549366296536537679}
+    - targetCorrespondingSourceObject: {fileID: 1925197282100688, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1511986669884293047}
+    - targetCorrespondingSourceObject: {fileID: 1150610443704632, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3616231104887186109}
   m_SourcePrefab: {fileID: 100100000, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
 --- !u!4 &5014643825926320265 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4393807827511222, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
   m_PrefabInstance: {fileID: 5014771210466400063}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5016592307962323105 stripped
+--- !u!1 &5015772831875622181 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1847148240549790, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1003890282918426, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
   m_PrefabInstance: {fileID: 5014771210466400063}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &4879043804339239373
-BoxCollider:
+--- !u!114 &549366296536537679
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5016592307962323105}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_GameObject: {fileID: 5015772831875622181}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.4172075, y: 1.3790793, z: 5.1057415}
-  m_Center: {x: 0, y: 0.75031865, z: -0.072930336}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee88cceee931ff4cbd8d6543706d0d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FrontalWheelRotation
+  rotationSpeed: 500
+  maxSteeringAngle: 45
+  steeringSpeed: 5
+--- !u!1 &5015916666260884999 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1150610443704632, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+  m_PrefabInstance: {fileID: 5014771210466400063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3616231104887186109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015916666260884999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8bfee0c10b9df4fa632d238ed51749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WheelRotation
+  rotationSpeed: 500
+--- !u!1 &5016013612764594949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1264536031007802, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+  m_PrefabInstance: {fileID: 5014771210466400063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1161991040909695651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5016013612764594949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f82ba8942db787489ecfb93a18dc303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SteeringWheel
+  maxSteeringAngle: 180
+  steeringSpeed: 5
+--- !u!1 &5016275576917539899 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1530347918961412, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+  m_PrefabInstance: {fileID: 5014771210466400063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6765098334851225087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5016275576917539899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee88cceee931ff4cbd8d6543706d0d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FrontalWheelRotation
+  rotationSpeed: 500
+  maxSteeringAngle: 45
+  steeringSpeed: 5
+--- !u!1 &5016690217490043631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1925197282100688, guid: bfec9736616e0d74fa58c16f2e83dcdc, type: 3}
+  m_PrefabInstance: {fileID: 5014771210466400063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1511986669884293047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5016690217490043631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8bfee0c10b9df4fa632d238ed51749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WheelRotation
+  rotationSpeed: 500
