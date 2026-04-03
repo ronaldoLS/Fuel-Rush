@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 [DefaultExecutionOrder(2)]
 public class PlayerController : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class PlayerController : MonoBehaviour
         // Define a velocidade de rotação com base na velocidade de movimento
         rotationSpeed = speed * 0.75f;
 
-        
+
 
     }
     void Update()
@@ -40,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
         // Move o jogador com base na entrada do usuário
         MovePlayer();
-    
+
 
         // Aplica a rotação suave do carro com base na entrada do jogador
         RotateCar();
@@ -51,7 +50,7 @@ public class PlayerController : MonoBehaviour
             transform.position.y,
             stutterOffsetZ
         );
-        
+
     }
 
     void MovePlayer()
@@ -144,7 +143,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        
+
         // Handle collisions with Cars and Barrels
         if (collision.gameObject.CompareTag("Car"))
         {
@@ -165,7 +164,16 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Powerup"))
         {
             AudioManager.Instance.PlayFuelPickup();
-            GameManager.Instance.IncreaseFuel(10);
+            float speed = GameManager.Instance.speed;
+            float maxSpeed = GameManager.Instance.maxSpeed;
+
+            float t = speed / maxSpeed;
+            float FuelPercent = GameManager.Instance.FuelPercent;
+            // escala de recompensa
+            float fuelAmount = FuelPercent < 0.3f ? 40f : Mathf.Lerp(10f, 20f, t);
+
+
+            GameManager.Instance.IncreaseFuel(Mathf.RoundToInt(fuelAmount));
 
             MoveForward move = other.GetComponent<MoveForward>();
 
