@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public float fuel { get; private set; }
     public float maxFuel { get; private set; }
     public float record { get; private set; }
+    public float sideBoundary { get; private set; }
+    public bool IsOnBoundary { get; private set; }
 
 
     [SerializeField] private float lowFuelThreshold = 0.15f;
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
         distance = 0;
         maxFuel = 100;
         fuel = maxFuel;
+        sideBoundary = 2.5f;
     }
 
     private void Start()
@@ -96,6 +99,10 @@ public class GameManager : MonoBehaviour
     public void IncreaseFuel(int amount)
     {
         fuel = Mathf.Min(fuel + amount, 100);
+    }
+    public void switchIsOnBoundary(bool b)
+    {
+                IsOnBoundary = b;
     }
     public void GameOver()
     {
