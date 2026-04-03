@@ -165,7 +165,15 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Powerup"))
         {
             AudioManager.Instance.PlayFuelPickup();
-            GameManager.Instance.IncreaseFuel(10);
+            float speed = GameManager.Instance.speed;
+            float maxSpeed = GameManager.Instance.maxSpeed;
+
+            float t = speed / maxSpeed;
+
+            // escala de recompensa
+            float fuelAmount = Mathf.Lerp(10f, 25f, t);
+
+            GameManager.Instance.IncreaseFuel(Mathf.RoundToInt(fuelAmount));
 
             MoveForward move = other.GetComponent<MoveForward>();
 
